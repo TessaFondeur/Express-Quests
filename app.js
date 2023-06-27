@@ -13,11 +13,12 @@ const welcome = (req, res) => {
 app.get("/", welcome);
 
 const userHandlers = require("./userHandlers");
+const { hashPassword } = require("./auth");
 
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUserById);
-app.post('/api/users', userHandlers.postUsers);
-app.put('/api/users/:id', userHandlers.updateUsers);
+app.post('/api/users', hashPassword, userHandlers.postUsers);
+app.put('/api/users/:id', hashPassword, userHandlers.updateUsers);
 app.delete('/api/users/:id', userHandlers.deleteUsers);
 
 app.listen(port, (err) => {
